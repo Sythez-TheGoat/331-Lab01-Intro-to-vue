@@ -21,6 +21,7 @@ const productDisplay = {
                     </div>
                     <button class="button" :disabled='!inStock' @click="addToCart"
                         :class="{disabledButton: !inStock}">Add To Cart</button>
+                    <button class="button" @click="removeFromCart">RemoveFromCart</button>
                 </div>
             </div>
         </div>
@@ -31,7 +32,7 @@ const productDisplay = {
     props: {
         premium: Boolean
     },
-    setup(props) {
+    setup(props, { emit }) {
         const product = ref('Boots')
         const brand = ref('SE 331')
         const inventory = ref(100)
@@ -45,7 +46,6 @@ const productDisplay = {
             { id: 2235, color: 'blue', image: './assets/images/socks_blue.jpg', quantity: 0 }
         ])
         const selectedVariant = ref(0)
-        const cart = ref(0)
         function updateVariant(index) {
             selectedVariant.value = index;
         }
@@ -56,7 +56,10 @@ const productDisplay = {
             return variants.value[selectedVariant.value].quantity
         })
         function addToCart() {
-            cart.value += 1
+            emit('add-to-cart', variants.value[selectedVariant.value].id)
+        }
+        function removeFromCart() {
+            emit('remove-from-cart', variants.value[selectedVariant.value].id)
         }
         const title = computed(() => {
             return brand.value + ' ' + product.value
@@ -78,6 +81,7 @@ const productDisplay = {
             variants,
             shipping,
             addToCart,
+            removeFromCart,
             updateVariant
         }
     }

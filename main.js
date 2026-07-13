@@ -2,11 +2,22 @@ const { createApp } = Vue
 
 const app = createApp({
     setup() {
-        const cart = ref(0)
+        const cart = ref([])
         const premium = ref(true)
+        function updateCart(id) {
+            cart.value.push(id)
+        }
+        function removeCart(id) {
+            const index = cart.value.indexOf(id)
+            if (index !== -1) {
+                cart.value.splice(index, 1)
+            }
+        }
         return {
             cart,
-            premium
+            premium,
+            updateCart,
+            removeCart
         }
     }
 })
