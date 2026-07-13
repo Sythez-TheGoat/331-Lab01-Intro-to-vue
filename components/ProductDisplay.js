@@ -22,12 +22,16 @@ const productDisplay = {
                     <button class="button" :disabled='!inStock' @click="addToCart"
                         :class="{disabledButton: !inStock}">Add To Cart</button>
                     <button class="button" @click="removeFromCart">RemoveFromCart</button>
+                    <review-list v-if="reviews.length" :reviews="reviews"></review-list>
+                    <review-form @review-submitted="addReview"></review-form>
                 </div>
             </div>
         </div>
         `,
     components: {
-        'product-details': productDetails
+        'product-details': productDetails,
+        'review-form': reviewForm,
+        'review-list': reviewList
     },
     props: {
         premium: Boolean
@@ -36,6 +40,7 @@ const productDisplay = {
         const product = ref('Boots')
         const brand = ref('SE 331')
         const inventory = ref(100)
+        const reviews = ref([])
         const details = ref([
             '50% cotton',
             '30% wool',
@@ -48,6 +53,9 @@ const productDisplay = {
         const selectedVariant = ref(0)
         function updateVariant(index) {
             selectedVariant.value = index;
+        }
+        function addReview(review) {
+            reviews.value.push(review)
         }
         const image = computed(() => {
             return variants.value[selectedVariant.value].image
@@ -80,9 +88,11 @@ const productDisplay = {
             details,
             variants,
             shipping,
+            reviews,
             addToCart,
             removeFromCart,
-            updateVariant
+            updateVariant,
+            addReview
         }
     }
 }
