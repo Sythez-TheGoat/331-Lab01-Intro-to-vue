@@ -1,4 +1,4 @@
-const { reactive } = Vue
+const { reactive, toRefs} = Vue
 
 const reviewForm = {
     template:
@@ -24,10 +24,10 @@ const reviewForm = {
             <label>Would you recommend this product?</label>
             <div>
                 <label>
-                    <input type="radio" value="Yes" v-model="form.recommend"> Yes
+                    <input type="radio" value="Yes" v-model="recommend"> Yes
                 </label>
                 <label>
-                    <input type="radio" value="No" v-model="form.recommend"> No
+                    <input type="radio" value="No" v-model="recommend"> No
                 </label>
             </div>
 
